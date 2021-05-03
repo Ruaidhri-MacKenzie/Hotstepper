@@ -166,4 +166,24 @@ export default class Sequencer {
 			$steps[this.lastStepDrawn].classList.remove("step--playing");
 		});
 	}
+
+	getState() {
+		const state = {
+			tempo: this.tempo,
+			soloChannel: this.soloChannel,
+			channels: this.channelList.map((channel) => channel.getState()),
+		};
+		return state;
+	}
+
+	setState(state) {
+		this.tempo = state.tempo;
+		this.$tempo.value = this.tempo;
+
+		this.setSolo(state.soloChannel);
+
+		this.channelList.forEach((channel, index) => {
+			channel.setState(state.channels[index]);
+		});
+	}
 }

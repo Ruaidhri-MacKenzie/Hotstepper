@@ -9,7 +9,7 @@ export default class Channel {
 
 		this.level = 75;
 		this.pan = 0;
-		this.patch = "";
+		this.patch = "Kick Drum";
 		this.isMute = false;
 		this.pitch = PITCH.C4;
 
@@ -29,12 +29,15 @@ export default class Channel {
 		this.$mute.addEventListener("click", this.toggleMute.bind(this));
 		this.$solo.addEventListener("click", () => setSolo(this.index));
 
-		Object.keys(localStorage).forEach((patchName) => {
-			const $option = document.createElement("option");
-			$option.value = patchName;
-			$option.textContent = patchName;
-			this.$patch.appendChild($option);
-		});
+		const patches = JSON.parse(localStorage.getItem("PATCHES"));
+		if (patches) {
+			Object.keys(patches).forEach((patchName) => {
+				const $option = document.createElement("option");
+				$option.value = patchName;
+				$option.textContent = patchName;
+				this.$patch.appendChild($option);
+			});
+		}
 	}
 
 	setLevel() {
@@ -47,7 +50,7 @@ export default class Channel {
 
 	setPatch() {
 		this.patch = this.$patch.value;
-		if (this.patch !== "" && this.patch !== "kick" && this.patch !== "snare" && this.patch !== "hiHat") {
+		if (this.patch !== "" && this.patch !== "Kick Drum" && this.patch !== "Snare Drum" && this.patch !== "Hi-Hat") {
 			this.synth.loadPatch(this.patch);
 		}
 	}
@@ -61,15 +64,47 @@ export default class Channel {
 		if (this.isMute) return;
 
 		if (this.sequence.steps[step]) {
-			if (this.patch === "" || this.patch === "kick") {
+			if (this.patch === "" || this.patch === "Kick Drum") {
 				this.synth.playKick(time, this.pan, this.level);
-			} else if (this.patch === "snare") {
+			} else if (this.patch === "Snare Drum") {
 				this.synth.playSnare(time, this.pan, this.level);
-			} else if (this.patch === "hiHat") {
+			} else if (this.patch === "Hi-Hat") {
 				this.synth.playHiHat(time, this.pan, this.level);
 			} else {
 				this.synth.play(time, duration, this.pitch, this.pan, this.level);
 			}
 		}
+	}
+
+	getState() {
+		const state = {
+			patch: this.patch,
+			pan: this.pan,
+			level: this.level,
+			isMute: this.isMute,
+			steps: this.sequence.getSteps(),
+		};
+		return state;
+	}
+
+	setState(state) {
+		this.patch = state.patch;
+		this.$patch.value = this.patch;
+		this.synth.loadPatch(this.patch);
+
+		this.pan = state.pan;
+		this.$pan.value = this.pan;
+
+		this.level = state.level;
+		this.$level.value = this.level;
+
+		this.isMute = state.isMute;
+		if (this.isMute) {
+			this.$mute.classList.add("channel__mute--active");
+		} else {
+			this.$mute.classList.remove("channel__mute--active");
+		}
+
+		this.sequence.setSteps(state.steps);
 	}
 }

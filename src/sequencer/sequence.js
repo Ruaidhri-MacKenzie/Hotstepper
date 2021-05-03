@@ -7,6 +7,7 @@ export default class Sequence {
 		this.steps = [];
 
 		this.$element = document.getElementById(`sequence${this.index}`);
+		this.$steps = [];
 
 		let $bar = null;
 		for (let i = 0; i < STEP_COUNT; i++) {
@@ -24,6 +25,7 @@ export default class Sequence {
 			$step.addEventListener("click", this.toggleStep.bind(this));
 
 			$bar.appendChild($step);
+			this.$steps.push($step);
 		}
 	}
 
@@ -33,5 +35,24 @@ export default class Sequence {
 
 		const index = $step.dataset.index;
 		this.steps[index] = !this.steps[index];
+	}
+
+	getSteps() {
+		return this.steps;
+	}
+
+	setSteps(steps) {
+		this.steps = steps;
+
+		this.$steps.forEach(($step, index) => {
+			if (index < this.steps.length) {
+				const stepActive = this.steps[index];
+				if (stepActive) {
+					$step.classList.add("step--active");
+				} else {
+					$step.classList.remove("step--active");
+				}
+			}
+		});
 	}
 }

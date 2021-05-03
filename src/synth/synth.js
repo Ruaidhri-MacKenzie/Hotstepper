@@ -13,23 +13,42 @@ export default class Synth {
 			this.patch.name = name;
 		}
 
-		const checkExists = localStorage.getItem(this.patch.name);
-		if (checkExists) {
-			const confirm = comfirm(`A patch already exists with the name ${this.patch.name}. Would you like to overwrite it?`);
-			if (!confirm) return;
+		let patches = JSON.parse(localStorage.getItem("PATCHES"));
+		if (patches) {
+			const checkExists = patches[this.patch.name];
+			if (checkExists) {
+				const confirm = comfirm(`A patch already exists with the name ${this.patch.name}. Would you like to overwrite it?`);
+				if (!confirm) return;
+			}
+		} else {
+			patches = {};
 		}
 
-		localStorage.setItem(this.patch.name, JSON.stringify(this.patch));
+		patches[this.patch.name] = this.patch;
+		localStorage.setItem("PATCHES", JSON.stringify(patches));
 	}
 
 	loadPatch(patchName) {
-		// Load with localstorage API
-		const patch = localStorage.getItem(patchName);
-		if (patch) {
-			this.patch = JSON.parse(patch);
-		} else {
-			console.log(`No patch found with name ${patchName}.`);
+		// Check for built-in patch names
+		if (patchName === "" || patchName === "Kick Drum" || patchName === "Snare Drum" || patchName === "Hi-Hat") {
+			return;
 		}
+
+		// Load patches with localstorage API
+		const patches = JSON.parse(localStorage.getItem("PATCHES"));
+		if (!patches) {
+			localStorage.setItem("PATCHES", JSON.stringify({}));
+			return;
+		}
+
+		// Check for patch in list of saved patches
+		const patch = patches[patchName];
+		if (!patch) {
+			return;
+		}
+
+		// Set the patch info for this synth to the saved patch info
+		this.patch = patch;
 	}
 
 	play(time, duration, pitch, pan, level) {

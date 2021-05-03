@@ -14,6 +14,9 @@ class Hotstepper {
 
 		this.$navSequencer.addEventListener("click", this.displaySequencer.bind(this));
 		this.$navSynth.addEventListener("click", this.displaySynth.bind(this));
+
+		window.addEventListener("beforeunload", this.saveState.bind(this));
+		this.loadState();
 	}
 
 	displaySequencer() {
@@ -28,6 +31,18 @@ class Hotstepper {
 		this.$sequencer.classList.remove("sequencer--active");
 		this.$navSynth.classList.add("app__nav-synth--active");
 		this.$navSequencer.classList.remove("app__nav-sequencer--active");
+	}
+
+	saveState() {
+		const sequencerState = this.sequencer.getState();
+		localStorage.setItem("SEQUENCER", JSON.stringify(sequencerState));
+	}
+
+	loadState() {
+		const sequencerState = JSON.parse(localStorage.getItem("SEQUENCER"));
+		if (sequencerState) {
+			this.sequencer.setState(sequencerState);
+		}
 	}
 }
 
