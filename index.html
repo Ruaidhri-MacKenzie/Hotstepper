@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="application-name" content="Hotstepper" />
+		<meta name="author" content="Ruaidhri MacKenzie" />
+		<meta name="description" content="Free Web-based Sequencer and Synthesiser" />
+		<meta name="keywords" content="Sequencer, Synthesiser, Digital Audio Workstation, DAW" />
+		<link rel="stylesheet" href="css/style.css" type="text/css" />
+		<link rel="shortcut icon" href="img/favicon-32.png" type="image/png" sizes="32x32" />
+		<link rel="shortcut icon" href="img/favicon-192.png" type="image/png" sizes="192x192" />
+		<title>Hotstepper - Free Sequencer</title>
+	</head>
+	<body class="app">
+		<header class="app__header">
+			<img class="app__logo" src="img/logo-trans.png" alt="Hotstepper logo" />
+			<nav class="app__nav">
+				<button class="app__nav-sequencer app__nav-sequencer--active">Sequencer</button>
+				<button class="app__nav-synth">Synth</button>
+			</nav>
+		</header>
+
+		<main class="app__content">
+			<div class="sequencer sequencer--active">
+				<section class="channel-list">
+					<div class="channel-list__controls"></div>
+					<div class="channel-list__sequences"></div>
+				</section>
+				<section class="playback">
+					<label class="playback__play-label" for="play">Play</label>
+					<button class="playback__play" id="play">▶</button>
+
+					<label class="playback__stop-label" for="stop">Stop</label>
+					<button class="playback__stop" id="stop">⏹</button>
+
+					<label class="playback__tempo-label" for="tempo">Tempo</label>
+					<input class="playback__tempo" id="tempo" placeholder="Enter Tempo" type="number" value="120" min="60" max="240" step="1" />
+					<label class="playback__tempo-bpm" for="tempo">bpm</label>
+				</section>
+			</div>
+
+			<div class="synth">
+				<section class="oscillator">
+					<header class="oscillator__header">
+						<h2 class="oscillator__title">Oscillator</h2>
+					</header>
+					<div class="oscillator__content">
+						<!-- Waveform select (sine, square, triangle, sawtooth) -->
+						<div class="oscillator__waveform">
+							<h3 class="oscillator__waveform-title">Waveform</h3>
+							<label class="oscillator__sine" for="sine">
+								<input class="oscillator__sine-input" type="radio" name="oscillatorType" id="sine" value="sine" checked />
+								<div class="oscillator__sine-display"></div>
+								<p class="oscillator__sine-label">Sine</p>
+							</label>
+							<label class="oscillator__square" for="square">
+								<input class="oscillator__square-input" type="radio" name="oscillatorType" id="square" value="square" />
+								<div class="oscillator__square-display"></div>
+								<p class="oscillator__square-label">Square</p>
+							</label>
+							<label class="oscillator__triangle" for="triangle">
+								<input class="oscillator__triangle-input" type="radio" name="oscillatorType" id="triangle" value="triangle" />
+								<div class="oscillator__triangle-display"></div>
+								<p class="oscillator__triangle-label">Triangle</p>
+							</label>
+							<label class="oscillator__sawtooth" for="sawtooth">
+								<input class="oscillator__sawtooth-input" type="radio" name="oscillatorType" id="sawtooth" value="sawtooth" />
+								<div class="oscillator__sawtooth-display"></div>
+								<p class="oscillator__sawtooth-label">Sawtooth</p>
+							</label>
+						</div>
+
+						<!-- Oscilloscope display -->
+						<div class="oscillator__oscilloscope"></div>
+					</div>
+				</section>
+
+				<section class="filter">
+					<header class="filter__header">
+						<h2 class="filter__title">Filter</h2>
+					</header>
+					<div class="filter__content">
+						<!-- Filter select (low-pass, bandpass, high-pass) -->
+						<div class="filter__type">
+							<h3 class="filter__type-title">Filter</h3>
+							<label class="filter__lowpass" for="lowpass">
+								<input class="filter__lowpass-input" type="radio" name="filter__type" id="lowpass" value="lowpass" checked />
+								<div class="filter__lowpass-display"></div>
+								<p class="filter__lowpass-label">Low-Pass</p>
+							</label>
+							<label class="filter__bandpass" for="bandpass">
+								<input class="filter__bandpass-input" type="radio" name="filter__type" id="bandpass" value="bandpass" />
+								<div class="filter__bandpass-display"></div>
+								<p class="filter__bandpass-label">Band-Pass</p>
+							</label>
+							<label class="filter__highpass" for="highpass">
+								<input class="filter__highpass-input" type="radio" name="filter__type" id="highpass" value="highpass" />
+								<div class="filter__highpass-display"></div>
+								<p class="filter__highpass-label">High-Pass</p>
+							</label>
+						</div>
+
+						<!-- Cutoff pot -->
+						<div class="filter__cutoff">
+							<h3 class="filter__cutoff-label">Cutoff</h3>
+							<div class="filter__cutoff-display"></div>
+							<input class="filter__cutoff-input" type="number" name="filterCutoff" id="cutoff" min="10" max="20000" step="10" />
+						</div>
+
+						<!-- Resonance pot -->
+						<div class="filter__resonance">
+							<h3 class="filter__resonance-label">Resonance</h3>
+							<div class="filter__resonance-display"></div>
+							<input class="filter__resonance-input" type="number" name="filterResonance" id="resonance" min="1" max="1000" step="1" />
+						</div>
+					</div>
+				</section>
+
+				<section class="lfo">
+					<header class="lfo__header">
+						<h2 class="lfo__title">LFO</h2>
+					</header>
+					<div class="lfo__content">
+						<!-- Rate pot -->
+						<div class="lfo__rate">
+							<h3 class="lfo__rate-label">Rate</h3>
+							<div class="lfo__rate-display"></div>
+							<input class="lfo__rate-input" type="number" name="lfoRate" id="rate" min="0" max="100" step="1" />
+						</div>
+
+						<!-- Depth pot -->
+						<div class="lfo__depth">
+							<h3 class="lfo__depth-label">Depth</h3>
+							<div class="lfo__depth-display"></div>
+							<input class="lfo__depth-input" type="number" name="lfoDepth" id="depth" min="0" max="100" step="1" />
+						</div>
+					</div>
+				</section>
+
+				<section class="envelope">
+					<header class="envelope__header">
+						<h2 class="envelope__title">Amplitude Envelope</h2>
+					</header>
+					<div class="envelope__content">
+						<!-- Attack fader -->
+						<div class="envelope__attack">
+							<input class="envelope__attack-input" type="range" orient="vertical" name="envelopeAttack" id="attack" min="0" max="1" step="0.01" />
+							<h3 class="envelope__attack-label">Attack</h3>
+						</div>
+
+						<!-- Decay fader -->
+						<div class="envelope__decay">
+							<input class="envelope__decay-input" type="range" orient="vertical" name="envelopeDecay" id="decay" min="0" max="1" step="0.01" />
+							<h3 class="envelope__decay-label">Decay</h3>
+						</div>
+
+						<!-- Sustain fader -->
+						<div class="envelope__sustain">
+							<input class="envelope__sustain-input" type="range" orient="vertical" name="envelopeSustain" id="sustain" min="0" max="1" step="0.01" />
+							<h3 class="envelope__sustain-label">Sustain</h3>
+						</div>
+
+						<!-- Release fader -->
+						<div class="envelope__release">
+							<input class="envelope__release-input" type="range" orient="vertical" name="envelopeRelease" id="release" min="0" max="1" step="0.01" />
+							<h3 class="envelope__release-label">Release</h3>
+						</div>
+					</div>
+				</section>
+
+				<section class="keyboard">
+					<header class="keyboard__header">
+						<h2 class="keyboard__title">Keyboard</h2>
+					</header>
+					<div class="keyboard__content">
+						<div class="keyboard__keys">
+							<button class="keyboard__key" data="C1">C</button>
+							<button class="keyboard__key" data="D1">D</button>
+							<button class="keyboard__key" data="E1">E</button>
+							<button class="keyboard__key" data="F1">F</button>
+							<button class="keyboard__key" data="G1">G</button>
+							<button class="keyboard__key" data="A1">A</button>
+							<button class="keyboard__key" data="B1">B</button>
+							<button class="keyboard__key" data="C2">C</button>
+							<button class="keyboard__key" data="D2">D</button>
+							<button class="keyboard__key" data="E2">E</button>
+							<button class="keyboard__key" data="F2">F</button>
+							<button class="keyboard__key" data="G2">G</button>
+							<button class="keyboard__key" data="A2">A</button>
+							<button class="keyboard__key" data="B2">B</button>
+							<button class="keyboard__key" data="C3">C</button>
+							<!-- <button class="keyboard__key" data="D3">D</button>
+							<button class="keyboard__key" data="E3">E</button>
+							<button class="keyboard__key" data="F3">F</button>
+							<button class="keyboard__key" data="G3">G</button>
+							<button class="keyboard__key" data="A3">A</button>
+							<button class="keyboard__key" data="B3">B</button>
+							<button class="keyboard__key" data="C4">C</button> -->
+						</div>
+					</div>
+				</section>
+
+				<section class="master">
+					<header class="master__header">
+						<h2 class="master__title">Master</h2>
+					</header>
+					<div class="master__content">
+						<!-- Volume fader -->
+						<div class="master__volume">
+							<input class="master__volume-input" type="range" orient="vertical" name="volume" id="volume" min="0" max="100" step="1" />
+							<h3 class="master__volume-label">Volume</h3>
+						</div>
+
+						<!-- Save/Load Patch -->
+						<div class="master__patches">
+							<button class="master__load">Load Patch</button>
+							<h3 class="master__patch-label">Current Patch:</h3>
+							<p class="master__patch-name">&#60;Untitled&#62;</p>
+							<button class="master__save">Save Patch</button>
+							<button class="master__rename">Rename Patch</button>
+						</div>
+						<div class="master__patch-list"></div>
+					</div>
+				</section>
+			</div>
+		</main>
+
+		<footer class="app__footer">
+			<p class="app__copyright">Ruaidhri MacKenzie &copy; 2021</p>
+		</footer>
+
+		<!-- Channel -->
+		<template id="channel-template">
+			<div class="channel">
+				<!-- Patch drop-down -->
+				<label class="channel__patch-label" for="patch">Patch</label>
+				<select class="channel__patch" id="patch">
+					<option value="kick">Kick Drum</option>
+					<option value="snare">Snare Drum</option>
+					<option value="hiHat">Hi-Hat</option>
+				</select>
+
+				<!-- Pan number input -->
+				<label class="channel__pan-label" for="pan">Pan</label>
+				<input class="channel__pan" type="range" id="pan" value="0" min="-1" max="1" step="0.01" />
+
+				<!-- Level number input -->
+				<label class="channel__level-label" for="level">Level</label>
+				<input class="channel__level" type="number" id="level" value="75" min="0" max="100" step="1" />
+
+				<!-- Solo button -->
+				<button class="channel__solo">Solo</button>
+
+				<!-- Mute button -->
+				<button class="channel__mute">Mute</button>
+			</div>
+		</template>
+
+		<script type="module" src="src/main.js"></script>
+	</body>
+</html>

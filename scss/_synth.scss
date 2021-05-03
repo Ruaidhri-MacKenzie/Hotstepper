@@ -1,0 +1,381 @@
+@use "colours";
+
+@mixin group {
+	border: 1px solid colours.$black;
+	display: grid;
+	grid-template-rows: auto 1fr;
+
+	&__header {
+		border-bottom: 1px solid colours.$black;
+		background-color: colours.$grey-70;
+	}
+
+	&__title {
+		text-align: center;
+		padding: 0.5em;
+	}
+
+	&__content {
+		padding: 1em;
+		background-color: colours.$grey-90;
+	}
+}
+
+@mixin patchButton {
+	cursor: pointer;
+	font-size: 1rem;
+	padding: 0.5em;
+}
+
+@mixin fader($fader-color) {
+	width: max-content;
+	padding: 0.5em;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	&-label {
+		text-align: center;
+		cursor: default;
+		user-select: none;
+	}
+
+	&-input {
+		margin: 1.5em 1em;
+		background-color: colours.$grey-90;
+
+		&::-webkit-slider-runnable-track,
+		&::-moz-range-track {
+			background-color: colours.$black;
+			height: 140px;
+		}
+
+		&::-webkit-slider-thumb,
+		&::-moz-range-thumb {
+			width: 40px;
+			height: 28px;
+			border-radius: 0;
+			background-color: $fader-color;
+			cursor: pointer;
+			transform: rotate(90deg);
+		}
+	}
+}
+
+@mixin pot {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	grid-template-rows: 1fr auto;
+	grid-template-areas:
+		"label"
+		"display"
+		"input";
+	justify-items: center;
+	grid-gap: 0.5em;
+	margin: 1em;
+	padding: 0.5em;
+	width: max-content;
+	border: 1px solid colours.$black;
+
+	&-display {
+		grid-area: display;
+		background-color: colours.$black;
+		border-radius: 50%;
+		width: 32px;
+		height: 32px;
+		position: relative;
+		--rotate: 0;
+		transform: rotate(var(--rotate));
+		cursor: pointer;
+
+		&::after {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: calc(50% - 2px);
+			width: 4px;
+			height: 15px;
+			transform: translateY(1px);
+			background-color: colours.$white;
+		}
+	}
+
+	&-label {
+		grid-area: label;
+		text-align: center;
+		cursor: default;
+		user-select: none;
+	}
+
+	&-input {
+		grid-area: input;
+		padding: 0.5em;
+		padding-left: 2em;
+		text-align: center;
+		font-size: 1rem;
+	}
+}
+
+@mixin select {
+	border: 1px solid colours.$black;
+	display: flex;
+	flex-direction: column;
+	width: max-content;
+	margin: 1em;
+	padding: 0.5em;
+
+	&-title {
+		text-align: center;
+		cursor: default;
+		user-select: none;
+	}
+}
+
+@mixin radio {
+	cursor: pointer;
+	user-select: none;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-areas: "button label";
+	align-items: center;
+
+	&-display {
+		grid-area: button;
+		border-radius: 50%;
+		margin: 0.5em;
+		margin-left: 0;
+		width: 13px;
+		height: 13px;
+		background-color: colours.$primary-50;
+	}
+
+	&-label {
+		grid-area: label;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	&-input {
+		grid-area: button;
+		display: none;
+	}
+	&-input:checked ~ &-display {
+		background-color: colours.$green;
+		border: 1px solid colours.$black;
+	}
+}
+
+.synth {
+	grid-area: main;
+
+	grid-template-areas:
+		"osc	filter	env			lfo"
+		"key	key			master	master";
+
+	overflow-y: scroll;
+	display: none;
+
+	&--active {
+		display: grid;
+	}
+
+	@media only screen and (max-width: 1250px) {
+		grid-template-areas:
+			"osc	filter	filter"
+			"env	lfo			master"
+			"key	key			master";
+	}
+}
+
+.oscillator {
+	@include group;
+	grid-area: osc;
+
+	&__content {
+		display: grid;
+		grid-template-areas: "waveform display";
+		justify-content: center;
+		align-items: center;
+	}
+
+	&__waveform {
+		@include select;
+		grid-area: waveform;
+	}
+
+	&__sine,
+	&__square,
+	&__triangle,
+	&__sawtooth {
+		@include radio;
+	}
+
+	&__oscilloscope {
+		grid-area: display;
+		width: 400px;
+		height: 200px;
+		background-color: #000000;
+		border: 1px solid #000000;
+	}
+}
+
+.filter {
+	@include group;
+	grid-area: filter;
+
+	&__content {
+		display: grid;
+		grid-template-areas:
+			"type		cutoff"
+			"type		q";
+		align-items: center;
+	}
+
+	&__type {
+		@include select;
+		grid-area: type;
+	}
+
+	&__lowpass,
+	&__bandpass,
+	&__highpass {
+		@include radio;
+	}
+
+	&__cutoff {
+		@include pot;
+		grid-area: cutoff;
+	}
+
+	&__resonance {
+		@include pot;
+		grid-area: q;
+	}
+}
+
+.envelope {
+	@include group;
+	grid-area: env;
+
+	&__content {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&__attack {
+		@include fader(#000000);
+	}
+
+	&__decay {
+		@include fader(#000000);
+	}
+
+	&__sustain {
+		@include fader(#000000);
+	}
+
+	&__release {
+		@include fader(#000000);
+	}
+}
+
+.lfo {
+	@include group;
+	grid-area: lfo;
+
+	&__content {
+		display: grid;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&__rate {
+		@include pot;
+	}
+
+	&__depth {
+		@include pot;
+	}
+}
+
+.keyboard {
+	@include group;
+	grid-area: key;
+
+	&__content {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&__keys {
+		display: flex;
+		justify-content: center;
+		background-color: #cccccc;
+		padding: 0.5em 0.5em 1em;
+		box-shadow: -2px -2px 1px #000000, inset -2px -3px 2px #000000;
+	}
+
+	&__key {
+		cursor: pointer;
+		width: 58px;
+		height: 196px;
+		box-shadow: 2px 2px 2px #000000;
+		background-color: #ffffff;
+
+		&:hover {
+			background-color: #eeeeee;
+		}
+	}
+}
+
+.master {
+	@include group;
+	grid-area: master;
+
+	&__content {
+		display: grid;
+		grid-template-areas: "volume	patch	list";
+		grid-template-columns: auto auto 1fr;
+		gap: 2em;
+
+		@media only screen and (max-width: 1250px) {
+			grid-template-areas:
+				"volume	patch"
+				"list		list";
+			grid-template-columns: auto auto;
+		}
+	}
+
+	&__volume {
+		@include fader(#990000);
+		grid-area: volume;
+	}
+
+	&__patches {
+		grid-area: patch;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		text-align: center;
+	}
+
+	&__save {
+		@include patchButton();
+	}
+
+	&__load {
+		@include patchButton();
+	}
+
+	&__rename {
+		@include patchButton();
+	}
+
+	&__patch-list {
+		grid-area: list;
+		background-color: colours.$grey-60;
+		border: 1px solid colours.$black;
+	}
+}

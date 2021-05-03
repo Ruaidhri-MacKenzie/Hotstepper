@@ -1,0 +1,104 @@
+@use "colours";
+@use "fonts";
+@use "sequencer";
+@use "synth";
+
+@mixin navButton {
+	cursor: pointer;
+	margin: 0.5em;
+	padding: 0.25em 1em;
+	font-size: 1.5rem;
+	font-weight: 900;
+	color: colours.$black;
+	background-color: transparent;
+	border: 0.125em solid currentColor;
+	border-radius: 0.5em;
+	position: relative;
+
+	&--active {
+		color: colours.$secondary-50;
+		text-shadow: 0 0 0.25em currentColor;
+		box-shadow: 0 0 0.5em currentColor, inset 0 0 0.5em currentColor;
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		text-shadow: 0 0 0.5em currentColor;
+		box-shadow: 0 0 0.5em currentColor, inset 0 0 0.25em currentColor;
+		opacity: 0;
+		transition: opacity 100ms linear;
+	}
+
+	&:hover::after,
+	&:focus::after {
+		opacity: 1;
+	}
+}
+
+// CSS reset defaults
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+// LAYOUT
+.app {
+	// <body>
+	height: 100vh;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	font-family: fonts.$sans-serif;
+
+	&__header {
+		background-color: colours.$brand1;
+		background-image: linear-gradient(colours.$brand2, colours.$brand1);
+		display: grid;
+		grid-template-columns: auto auto 1fr;
+	}
+
+	&__logo {
+		padding: 0.5em 2em 0;
+	}
+
+	&__nav {
+		width: 100%;
+		justify-self: center;
+		align-items: center;
+		display: flex;
+		justify-content: space-evenly;
+
+		&-sequencer {
+			@include navButton;
+		}
+
+		&-synth {
+			@include navButton;
+		}
+	}
+
+	&__content {
+		display: grid;
+		grid-template-areas: "main";
+		grid-template-rows: minmax(0, 1fr);
+	}
+
+	&__footer {
+		background-color: colours.$brand1;
+	}
+
+	&__copyright {
+		font-size: 0.75rem;
+		font-family: fonts.$sans-serif;
+		color: colours.$grey-90;
+		text-align: right;
+		padding: 0.75em;
+	}
+}
