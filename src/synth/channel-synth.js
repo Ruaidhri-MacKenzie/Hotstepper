@@ -44,4 +44,8 @@ export default class ChannelSynth extends Synth {
 	playHiHat(time, pan, level) {
 		this.playSample(time, this.hiHat, pan, level);
 	}
+
+	reloadPatch() {
+		super.loadPatch(this.patch.name);
+	}
 }
