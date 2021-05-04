@@ -1,5 +1,11 @@
 @use "colours";
 
+@mixin channelLabel {
+	font-size: 0.75rem;
+	align-self: flex-end;
+	margin: 0 0.5em;
+}
+
 @mixin channelButton($backgroundColor) {
 	cursor: pointer;
 	margin: 0.5em;
@@ -19,7 +25,7 @@
 	}
 }
 
-@mixin playbackButton() {
+@mixin playbackButton {
 	cursor: pointer;
 	font-size: 1.5rem;
 	font-weight: 900;
@@ -82,8 +88,8 @@
 	border-radius: 5px 0 0 5px;
 	display: grid;
 	grid-template-areas:
-		"patch-label	pan-label	level-label	.			."
-		"patch				pan				level				solo	mute";
+		"patch-label	pan-label	level-label	pitch-label	.			."
+		"patch				pan				level				pitch				solo	mute";
 	text-align: center;
 	justify-content: center;
 	align-items: center;
@@ -97,9 +103,7 @@
 
 		&-label {
 			grid-area: patch-label;
-			font-size: 0.75rem;
-			align-self: flex-end;
-			margin: 0 0.5em;
+			@include channelLabel;
 		}
 	}
 
@@ -124,9 +128,7 @@
 
 		&-label {
 			grid-area: pan-label;
-			font-size: 0.75rem;
-			align-self: flex-end;
-			margin: 0 0.5em;
+			@include channelLabel;
 		}
 	}
 
@@ -139,9 +141,20 @@
 
 		&-label {
 			grid-area: level-label;
-			font-size: 0.75rem;
-			margin: 0 0.5em;
-			align-self: flex-end;
+			@include channelLabel;
+		}
+	}
+
+	&__pitch {
+		grid-area: pitch;
+		width: 4em;
+		margin: 0 0.25em;
+		padding: 0.25em;
+		text-align: center;
+
+		&-label {
+			grid-area: pitch-label;
+			@include channelLabel;
 		}
 	}
 
