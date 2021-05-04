@@ -21,12 +21,6 @@
 	}
 }
 
-@mixin patchButton {
-	cursor: pointer;
-	font-size: 1rem;
-	padding: 0.5em;
-}
-
 @mixin fader($fader-color) {
 	width: max-content;
 	padding: 0.5em;
@@ -165,12 +159,30 @@
 	}
 }
 
+@mixin patchEntryButton {
+	cursor: pointer;
+	padding: 0.25em 0.5em;
+	font-weight: 900;
+	background-color: colours.$brand1;
+	color: colours.$white;
+	border: 1px solid colours.$brand1;
+	margin: 0.25em;
+	border-radius: 5px;
+
+	&:hover {
+		background-color: colours.$primary-40;
+		border: 1px solid colours.$black;
+	}
+}
+
 .synth {
 	grid-area: main;
 
 	grid-template-areas:
 		"osc	filter	env			lfo"
 		"key	key			master	master";
+
+	grid-template-rows: auto minmax(0, 1fr);
 
 	overflow-y: scroll;
 	display: none;
@@ -184,6 +196,8 @@
 			"osc	filter	filter"
 			"env	lfo			master"
 			"key	key			master";
+
+		grid-template-rows: auto auto minmax(0, 1fr);
 	}
 }
 
@@ -212,10 +226,10 @@
 
 	&__oscilloscope {
 		grid-area: display;
-		width: 400px;
-		height: 200px;
-		background-color: #000000;
-		border: 1px solid #000000;
+		width: 24em;
+		height: 12em;
+		background-color: colours.$black;
+		border: 0.5em solid colours.$grey-20;
 	}
 }
 
@@ -312,20 +326,43 @@
 	&__keys {
 		display: flex;
 		justify-content: center;
-		background-color: #cccccc;
+		background-color: colours.$grey-80;
 		padding: 0.5em 0.5em 1em;
-		box-shadow: -2px -2px 1px #000000, inset -2px -3px 2px #000000;
+		box-shadow: -2px -2px 1px colours.$black, inset -2px -3px 2px colours.$black;
 	}
 
 	&__key {
 		cursor: pointer;
-		width: 58px;
-		height: 196px;
-		box-shadow: 2px 2px 2px #000000;
-		background-color: #ffffff;
+		width: 60px;
+		height: 200px;
+		box-shadow: 2px 2px 2px colours.$black;
+		background-color: colours.$white;
 
 		&:hover {
-			background-color: #eeeeee;
+			background-color: colours.$grey-90;
+		}
+
+		&--active {
+			background-color: colours.$grey-80;
+		}
+
+		&--black {
+			--width: 35px;
+			width: var(--width);
+			height: 120px;
+			color: colours.$white;
+			background-color: colours.$black;
+			margin-left: calc(var(--width) * -0.5);
+			margin-right: calc(var(--width) * -0.5);
+			z-index: 1;
+
+			&:hover {
+				background-color: colours.$grey-20;
+			}
+
+			&.keyboard__key--active {
+				background-color: colours.$grey-30;
+			}
 		}
 	}
 }
@@ -336,46 +373,88 @@
 
 	&__content {
 		display: grid;
-		grid-template-areas: "volume	patch	list";
-		grid-template-columns: auto auto 1fr;
-		gap: 2em;
+		grid-template-areas:
+			"volume	label	save"
+			"volume	list	list";
+		grid-template-columns: auto 1fr auto;
+		grid-template-rows: auto minmax(0, 1fr);
+		align-items: center;
 
 		@media only screen and (max-width: 1250px) {
 			grid-template-areas:
 				"volume	patch"
 				"list		list";
 			grid-template-columns: auto auto;
+			grid-template-rows: auto minmax(0, 1fr);
 		}
 	}
 
 	&__volume {
 		@include fader(#990000);
 		grid-area: volume;
+		margin: 1em;
 	}
 
-	&__patches {
-		grid-area: patch;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-evenly;
-		text-align: center;
+	&__patch-label {
+		grid-area: label;
+		justify-self: center;
 	}
 
-	&__save {
-		@include patchButton();
-	}
+	&__patch-save {
+		grid-area: save;
+		cursor: pointer;
+		font-size: 1rem;
+		padding: 0.5em;
+		background-color: colours.$secondary-50;
+		border-radius: 10px;
+		border: 1px solid colours.$secondary-50;
 
-	&__load {
-		@include patchButton();
-	}
-
-	&__rename {
-		@include patchButton();
+		&:hover {
+			background-color: colours.$secondary-40;
+			border: 1px solid colours.$black;
+		}
 	}
 
 	&__patch-list {
 		grid-area: list;
 		background-color: colours.$grey-60;
 		border: 1px solid colours.$black;
+		overflow-y: scroll;
+		max-height: 250px;
+	}
+}
+
+.patch-entry {
+	padding: 0.5em;
+	margin: 0.5em;
+	background-color: colours.$grey-90;
+	border: 1px solid colours.$black;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	&:nth-child(2n) {
+		background-color: colours.$grey-80;
+	}
+
+	&--active {
+		background-color: colours.$highlight-60 !important;
+	}
+
+	&__label {
+		cursor: pointer;
+
+		&:hover {
+			text-decoration: underline;
+			color: colours.$primary-50;
+		}
+	}
+
+	&__rename {
+		@include patchEntryButton;
+	}
+
+	&__delete {
+		@include patchEntryButton;
 	}
 }
