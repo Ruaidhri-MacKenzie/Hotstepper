@@ -23,7 +23,7 @@ export default class Sequencer {
 
 		this.$play.addEventListener("click", this.play.bind(this));
 		this.$stop.addEventListener("click", this.stop.bind(this));
-		this.$tempo.addEventListener("input", this.setTempo.bind(this));
+		this.$tempo.addEventListener("change", this.setTempo.bind(this));
 
 		this.tempo = TEMPO.default; // in bpm
 		this.currentStep = 0;
