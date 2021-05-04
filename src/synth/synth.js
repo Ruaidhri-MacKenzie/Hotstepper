@@ -4,21 +4,23 @@ export default class Synth {
 	constructor(context) {
 		this.context = context;
 		this.patch = new Patch();
+		this.analyser = this.context.createAnalyser();
 	}
 
 	savePatch() {
-		// Save with localstorage API
-		if (!this.patch.name) {
-			const name = prompt("Enter a patch name:");
-			this.patch.name = name;
-		}
+		if (!this.patch.name) return;
 
+		// Save with localstorage API
 		let patches = JSON.parse(localStorage.getItem("PATCHES"));
 		if (patches) {
 			const checkExists = patches[this.patch.name];
 			if (checkExists) {
-				const confirm = comfirm(`A patch already exists with the name ${this.patch.name}. Would you like to overwrite it?`);
-				if (!confirm) return;
+				const checkOverwrite = confirm(`A patch already exists with the name ${this.patch.name}. Would you like to overwrite it?`);
+				if (!checkOverwrite) {
+					const name = prompt("Enter a patch name:");
+					if (!name) return;
+					else this.patch.name = name;
+				}
 			}
 		} else {
 			patches = {};
@@ -93,6 +95,7 @@ export default class Synth {
 		// Connect nodes in context graph
 		oscillator.connect(filter).connect(envelope).connect(panNode).connect(levelNode).connect(this.context.destination);
 		lfo.connect(lfoDepth).connect(oscillator.frequency);
+		levelNode.connect(this.analyser);
 
 		// Playback
 		oscillator.start(time);
