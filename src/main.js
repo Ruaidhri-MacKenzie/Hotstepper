@@ -24,6 +24,10 @@ class Hotstepper {
 		this.$synth.classList.remove("synth--active");
 		this.$navSequencer.classList.add("app__nav-sequencer--active");
 		this.$navSynth.classList.remove("app__nav-synth--active");
+
+		this.sequencer.channelList.forEach((channel) => {
+			channel.synth.reloadPatch();
+		});
 	}
 
 	displaySynth() {
