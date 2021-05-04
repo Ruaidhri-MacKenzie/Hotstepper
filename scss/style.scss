@@ -100,5 +100,14 @@
 		color: colours.$grey-90;
 		text-align: right;
 		padding: 0.75em;
+
+		&-link {
+			text-decoration: none;
+			color: colours.$grey-90;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
 	}
 }
