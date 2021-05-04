@@ -17,17 +17,19 @@ export default class Channel {
 		this.synth = new ChannelSynth(this.context);
 
 		this.$element = document.getElementById(`channel${this.index}`);
-		this.$level = this.$element.querySelector(".channel__level");
-		this.$pan = this.$element.querySelector(".channel__pan");
 		this.$patch = this.$element.querySelector(".channel__patch");
+		this.$pan = this.$element.querySelector(".channel__pan");
+		this.$level = this.$element.querySelector(".channel__level");
+		this.$pitch = this.$element.querySelector(".channel__pitch");
 		this.$mute = this.$element.querySelector(".channel__mute");
 		this.$solo = this.$element.querySelector(".channel__solo");
 
-		this.$level.addEventListener("input", this.setLevel.bind(this));
-		this.$pan.addEventListener("input", this.setPan.bind(this));
 		this.$patch.addEventListener("input", this.setPatch.bind(this));
-		this.$mute.addEventListener("click", this.toggleMute.bind(this));
+		this.$pan.addEventListener("input", this.setPan.bind(this));
+		this.$level.addEventListener("input", this.setLevel.bind(this));
+		this.$pitch.addEventListener("input", this.setPitch.bind(this));
 		this.$solo.addEventListener("click", () => setSolo(this.index));
+		this.$mute.addEventListener("click", this.toggleMute.bind(this));
 
 		const patches = JSON.parse(localStorage.getItem("PATCHES"));
 		if (patches) {
@@ -39,20 +41,23 @@ export default class Channel {
 			});
 		}
 	}
-
-	setLevel() {
-		this.level = Number(this.$level.value);
+	setPatch() {
+		this.patch = this.$patch.value;
+		if (this.patch !== "" && this.patch !== "Kick Drum" && this.patch !== "Snare Drum" && this.patch !== "Hi-Hat") {
+			this.synth.loadPatch(this.patch);
+		}
 	}
 
 	setPan() {
 		this.pan = Number(this.$pan.value);
 	}
 
-	setPatch() {
-		this.patch = this.$patch.value;
-		if (this.patch !== "" && this.patch !== "Kick Drum" && this.patch !== "Snare Drum" && this.patch !== "Hi-Hat") {
-			this.synth.loadPatch(this.patch);
-		}
+	setLevel() {
+		this.level = Number(this.$level.value);
+	}
+
+	setPitch() {
+		this.pitch = PITCH[this.$pitch.value];
 	}
 
 	toggleMute() {
@@ -81,6 +86,7 @@ export default class Channel {
 			patch: this.patch,
 			pan: this.pan,
 			level: this.level,
+			pitch: this.pitch,
 			isMute: this.isMute,
 			steps: this.sequence.getSteps(),
 		};
@@ -97,6 +103,10 @@ export default class Channel {
 
 		this.level = state.level;
 		this.$level.value = this.level;
+
+		this.pitch = state.pitch;
+		const pitchName = Object.keys(PITCH).find((key) => PITCH[key] === this.pitch);
+		this.$pitch.value = pitchName;
 
 		this.isMute = state.isMute;
 		if (this.isMute) {
