@@ -73,7 +73,7 @@
 						</div>
 
 						<!-- Oscilloscope display -->
-						<div class="oscillator__oscilloscope"></div>
+						<canvas class="oscillator__oscilloscope"></canvas>
 					</div>
 				</section>
 
@@ -176,28 +176,31 @@
 					</header>
 					<div class="keyboard__content">
 						<div class="keyboard__keys">
-							<button class="keyboard__key" data="C1">C</button>
-							<button class="keyboard__key" data="D1">D</button>
-							<button class="keyboard__key" data="E1">E</button>
-							<button class="keyboard__key" data="F1">F</button>
-							<button class="keyboard__key" data="G1">G</button>
-							<button class="keyboard__key" data="A1">A</button>
-							<button class="keyboard__key" data="B1">B</button>
-							<button class="keyboard__key" data="C2">C</button>
-							<button class="keyboard__key" data="D2">D</button>
-							<button class="keyboard__key" data="E2">E</button>
-							<button class="keyboard__key" data="F2">F</button>
-							<button class="keyboard__key" data="G2">G</button>
-							<button class="keyboard__key" data="A2">A</button>
-							<button class="keyboard__key" data="B2">B</button>
-							<button class="keyboard__key" data="C3">C</button>
-							<!-- <button class="keyboard__key" data="D3">D</button>
-							<button class="keyboard__key" data="E3">E</button>
-							<button class="keyboard__key" data="F3">F</button>
-							<button class="keyboard__key" data="G3">G</button>
-							<button class="keyboard__key" data="A3">A</button>
-							<button class="keyboard__key" data="B3">B</button>
-							<button class="keyboard__key" data="C4">C</button> -->
+							<button class="keyboard__key" data-pitch="C3"></button>
+							<button class="keyboard__key keyboard__key--black" data-pitch="Db3"></button>
+							<button class="keyboard__key" data-pitch="D3"></button>
+							<button class="keyboard__key keyboard__key--black" data-pitch="Eb3"></button>
+							<button class="keyboard__key" data-pitch="E3"></button>
+							<button class="keyboard__key" data-pitch="F3"></button>
+							<button class="keyboard__key keyboard__key--black" data-pitch="Gb3"></button>
+							<button class="keyboard__key" data-pitch="G3"></button>
+							<button class="keyboard__key keyboard__key--black" data-pitch="Ab3"></button>
+							<button class="keyboard__key" data-pitch="A3"></button>
+							<button class="keyboard__key keyboard__key--black" data-pitch="Bb3"></button>
+							<button class="keyboard__key" data-pitch="B3"></button>
+							<button class="keyboard__key" data-pitch="C4"></button>
+							<button class="keyboard__key keyboard__key--black" data-pitch="Db4"></button>
+							<button class="keyboard__key" data-pitch="D4"></button>
+							<button class="keyboard__key keyboard__key--black" data-pitch="Eb4"></button>
+							<button class="keyboard__key" data-pitch="E4"></button>
+							<button class="keyboard__key" data-pitch="F4"></button>
+							<button class="keyboard__key keyboard__key--black" data-pitch="Gb4"></button>
+							<button class="keyboard__key" data-pitch="G4"></button>
+							<button class="keyboard__key keyboard__key--black" data-pitch="Ab4"></button>
+							<button class="keyboard__key" data-pitch="A4"></button>
+							<button class="keyboard__key keyboard__key--black" data-pitch="Bb4"></button>
+							<button class="keyboard__key" data-pitch="B4"></button>
+							<button class="keyboard__key" data-pitch="C5"></button>
 						</div>
 					</div>
 				</section>
@@ -214,13 +217,8 @@
 						</div>
 
 						<!-- Save/Load Patch -->
-						<div class="master__patches">
-							<button class="master__load">Load Patch</button>
-							<h3 class="master__patch-label">Current Patch:</h3>
-							<p class="master__patch-name">&#60;Untitled&#62;</p>
-							<button class="master__save">Save Patch</button>
-							<button class="master__rename">Rename Patch</button>
-						</div>
+						<h3 class="master__patch-label">Patch List</h3>
+						<button class="master__patch-save">Save Patch</button>
 						<div class="master__patch-list"></div>
 					</div>
 				</section>
@@ -228,7 +226,7 @@
 		</main>
 
 		<footer class="app__footer">
-			<p class="app__copyright">Ruaidhri MacKenzie &copy; 2021</p>
+			<p class="app__copyright"><a class="app__copyright-link" href="mailto:contact@ruaidhri-mackenzie.com">Ruaidhri MacKenzie</a> &copy; 2021</p>
 		</footer>
 
 		<!-- Channel -->
@@ -249,6 +247,36 @@
 				<!-- Level number input -->
 				<label class="channel__level-label" for="level">Level</label>
 				<input class="channel__level" type="number" id="level" value="75" min="0" max="100" step="1" />
+
+				<!-- Pitch drop-down -->
+				<label class="channel__pitch-label" for="pitch">Pitch</label>
+				<select class="channel__pitch" id="pitch">
+					<option value="C3">C3</option>
+					<option value="Db3">Db3</option>
+					<option value="D3">D3</option>
+					<option value="Eb3">Eb3</option>
+					<option value="E3">E3</option>
+					<option value="F3">F3</option>
+					<option value="Gb3">Gb3</option>
+					<option value="G3">G3</option>
+					<option value="Ab3">Ab3</option>
+					<option value="A3">A3</option>
+					<option value="Bb3">Bb3</option>
+					<option value="B3">B3</option>
+					<option value="C4">C4</option>
+					<option value="Db4">Db4</option>
+					<option value="D4">D4</option>
+					<option value="Eb4">Eb4</option>
+					<option value="E4">E4</option>
+					<option value="F4">F4</option>
+					<option value="Gb4">Gb4</option>
+					<option value="G4">G4</option>
+					<option value="Ab4">Ab4</option>
+					<option value="A4">A4</option>
+					<option value="Bb4">Bb4</option>
+					<option value="B4">B4</option>
+					<option value="C5">C5</option>
+				</select>
 
 				<!-- Solo button -->
 				<button class="channel__solo">Solo</button>
