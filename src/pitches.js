@@ -1,4 +1,4 @@
-export const PITCH = {
+const PITCH = {
 	C3: 130.81,
 	Db3: 138.59,
 	D3: 146.83,
@@ -26,14 +26,4 @@ export const PITCH = {
 	C5: 523.25,
 };
 
-export const TEMPO = {
-	min: 60,
-	default: 120,
-	max: 240,
-};
-
-export const CHANNEL_COUNT = 8;
-export const STEP_COUNT = 64;
-
-export const LOOKAHEAD = 25; // in ms
-export const SCHEDULE_AHEAD_TIME = 0.1; // in sec
+export default PITCH;
