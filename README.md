@@ -80,7 +80,7 @@ The final step is using this wave to move a set of speakers, turning our electri
 
 ### Patches
 
-As you can see even our simple synth has quite a few settings to tweek and keep track of. Most commercial synthesisers will have at least three separate oscillators for producing waves, multiple LFOs, additional effects, etc.
+As you can see even our simple synth has quite a few settings to tweak and keep track of. Most commercial synthesisers will have at least three separate oscillators for producing waves, multiple LFOs, additional effects, etc.
 
 Synths have always been electronic, but before they were computerised these settings had to be manually input on a physical device. If you wanted to load a sound you had previously created you would need to reset all the dials by hand. In order to store lots of different sounds without remembering hundreds of settings this was done by placing a piece of paper with the controls cut out over the synth, the settings were then marked on the paper. This was called a patch, and the name has stuck into the digital age.
 
