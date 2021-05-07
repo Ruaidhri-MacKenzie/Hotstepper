@@ -111,6 +111,7 @@ export default class KeyboardSynth extends Synth {
 		}
 
 		$input.value = this.patch[$input.name];
+		this.setPotPosition($input.parentNode.children[1]);
 	}
 
 	onChangeSelect(event) {
