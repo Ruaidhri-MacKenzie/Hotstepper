@@ -37,15 +37,18 @@
 	&-input {
 		margin: 1.5em 1em;
 		background-color: colours.$grey-90;
+		-webkit-appearance: slider-vertical;
 
 		&::-webkit-slider-runnable-track,
 		&::-moz-range-track {
+			-webkit-appearance: none;
 			background-color: colours.$black;
 			height: 140px;
 		}
 
 		&::-webkit-slider-thumb,
 		&::-moz-range-thumb {
+			-webkit-appearance: none;
 			width: 40px;
 			height: 28px;
 			border-radius: 0;
@@ -420,7 +423,7 @@
 		background-color: colours.$grey-60;
 		border: 1px solid colours.$black;
 		overflow-y: scroll;
-		max-height: 250px;
+		height: 250px;
 	}
 }
 
