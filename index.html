@@ -33,7 +33,7 @@
 					<button class="playback__play" id="play">▶</button>
 
 					<label class="playback__stop-label" for="stop">Stop</label>
-					<button class="playback__stop" id="stop">⏹</button>
+					<button class="playback__stop" id="stop">◼</button>
 
 					<label class="playback__tempo-label" for="tempo">Tempo</label>
 					<input class="playback__tempo" id="tempo" placeholder="Enter Tempo" type="number" value="120" min="60" max="240" step="1" />
@@ -86,17 +86,17 @@
 						<div class="filter__type">
 							<h3 class="filter__type-title">Filter</h3>
 							<label class="filter__lowpass" for="lowpass">
-								<input class="filter__lowpass-input" type="radio" name="filter__type" id="lowpass" value="lowpass" checked />
+								<input class="filter__lowpass-input" type="radio" name="filterType" id="lowpass" value="lowpass" checked />
 								<div class="filter__lowpass-display"></div>
 								<p class="filter__lowpass-label">Low-Pass</p>
 							</label>
 							<label class="filter__bandpass" for="bandpass">
-								<input class="filter__bandpass-input" type="radio" name="filter__type" id="bandpass" value="bandpass" />
+								<input class="filter__bandpass-input" type="radio" name="filterType" id="bandpass" value="bandpass" />
 								<div class="filter__bandpass-display"></div>
 								<p class="filter__bandpass-label">Band-Pass</p>
 							</label>
 							<label class="filter__highpass" for="highpass">
-								<input class="filter__highpass-input" type="radio" name="filter__type" id="highpass" value="highpass" />
+								<input class="filter__highpass-input" type="radio" name="filterType" id="highpass" value="highpass" />
 								<div class="filter__highpass-display"></div>
 								<p class="filter__highpass-label">High-Pass</p>
 							</label>
@@ -251,31 +251,31 @@
 				<!-- Pitch drop-down -->
 				<label class="channel__pitch-label" for="pitch">Pitch</label>
 				<select class="channel__pitch" id="pitch">
-					<option value="C3">C3</option>
-					<option value="Db3">Db3</option>
-					<option value="D3">D3</option>
-					<option value="Eb3">Eb3</option>
-					<option value="E3">E3</option>
-					<option value="F3">F3</option>
-					<option value="Gb3">Gb3</option>
-					<option value="G3">G3</option>
-					<option value="Ab3">Ab3</option>
-					<option value="A3">A3</option>
-					<option value="Bb3">Bb3</option>
-					<option value="B3">B3</option>
-					<option value="C4">C4</option>
-					<option value="Db4">Db4</option>
-					<option value="D4">D4</option>
-					<option value="Eb4">Eb4</option>
-					<option value="E4">E4</option>
-					<option value="F4">F4</option>
-					<option value="Gb4">Gb4</option>
-					<option value="G4">G4</option>
-					<option value="Ab4">Ab4</option>
-					<option value="A4">A4</option>
-					<option value="Bb4">Bb4</option>
-					<option value="B4">B4</option>
 					<option value="C5">C5</option>
+					<option value="B4">B4</option>
+					<option value="Bb4">Bb4</option>
+					<option value="A4">A4</option>
+					<option value="Ab4">Ab4</option>
+					<option value="G4">G4</option>
+					<option value="Gb4">Gb4</option>
+					<option value="F4">F4</option>
+					<option value="E4">E4</option>
+					<option value="Eb4">Eb4</option>
+					<option value="D4">D4</option>
+					<option value="Db4">Db4</option>
+					<option value="C4">C4</option>
+					<option value="B3">B3</option>
+					<option value="Bb3">Bb3</option>
+					<option value="A3">A3</option>
+					<option value="Ab3">Ab3</option>
+					<option value="G3">G3</option>
+					<option value="Gb3">Gb3</option>
+					<option value="F3">F3</option>
+					<option value="E3">E3</option>
+					<option value="Eb3">Eb3</option>
+					<option value="D3">D3</option>
+					<option value="Db3">Db3</option>
+					<option value="C3">C3</option>
 				</select>
 
 				<!-- Solo button -->
