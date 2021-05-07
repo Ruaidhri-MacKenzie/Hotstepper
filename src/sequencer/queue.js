@@ -1,4 +1,4 @@
-class Queue {
+export default class Queue {
 	constructor(maxSize) {
 		this.items = new Array(maxSize).fill(null);
 		this.maxSize = maxSize;
@@ -37,15 +37,5 @@ class Queue {
 		} else {
 			console.log("Queue is empty.");
 		}
-	}
-}
-
-export default class StepQueue extends Queue {
-	constructor(stepCount) {
-		super(stepCount);
-	}
-
-	enqueue(step, time) {
-		super.enqueue({ step, time });
 	}
 }

@@ -1,5 +1,5 @@
 import Channel from "./channel.js";
-import StepQueue from "./queue.js";
+import Queue from "./queue.js";
 
 export default class Sequencer {
 	constructor(context, channelCount, stepCount) {
@@ -34,7 +34,7 @@ export default class Sequencer {
 		this.currentStep = 0;
 		this.nextStepTime = 0;
 		this.lastStepDrawn = 1;
-		this.stepQueue = new StepQueue(this.stepCount);
+		this.stepQueue = new Queue(this.stepCount);
 		this.isPlaying = false;
 
 		this.soloChannel = null;
@@ -86,7 +86,7 @@ export default class Sequencer {
 	}
 
 	scheduleStep(step, time) {
-		this.stepQueue.enqueue(step, time);
+		this.stepQueue.enqueue({ step, time });
 
 		const beatsPerSecond = this.tempo / 60;
 		const secondsPerBeat = 1 / beatsPerSecond;
