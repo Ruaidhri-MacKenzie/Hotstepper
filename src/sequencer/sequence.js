@@ -1,7 +1,5 @@
-import { STEP_COUNT } from "../constants.js";
-
 export default class Sequence {
-	constructor(context, index) {
+	constructor(context, index, stepCount) {
 		this.context = context;
 		this.index = index;
 		this.steps = [];
@@ -10,7 +8,7 @@ export default class Sequence {
 		this.$steps = [];
 
 		let $bar = null;
-		for (let i = 0; i < STEP_COUNT; i++) {
+		for (let i = 0; i < stepCount; i++) {
 			this.steps.push(false);
 
 			if (i % 16 === 0) {

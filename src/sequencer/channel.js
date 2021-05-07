@@ -1,9 +1,9 @@
-import { PITCH } from "../constants.js";
+import PITCH from "../pitches.js";
 import ChannelSynth from "../synth/channel-synth.js";
 import Sequence from "./sequence.js";
 
 export default class Channel {
-	constructor(context, index, setSolo) {
+	constructor(context, index, stepCount, setSolo) {
 		this.context = context;
 		this.index = index;
 
@@ -13,7 +13,7 @@ export default class Channel {
 		this.isMute = false;
 		this.pitch = PITCH.C4;
 
-		this.sequence = new Sequence(this.context, this.index);
+		this.sequence = new Sequence(this.context, this.index, stepCount);
 		this.synth = new ChannelSynth(this.context);
 
 		this.$element = document.getElementById(`channel${this.index}`);

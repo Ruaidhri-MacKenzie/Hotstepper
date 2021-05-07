@@ -4,7 +4,7 @@ import KeyboardSynth from "./synth/keyboard-synth.js";
 class Hotstepper {
 	constructor() {
 		this.context = new AudioContext();
-		this.sequencer = new Sequencer(this.context);
+		this.sequencer = new Sequencer(this.context, 8, 64);
 		this.synth = new KeyboardSynth(this.context);
 
 		this.$sequencer = document.querySelector(".sequencer");

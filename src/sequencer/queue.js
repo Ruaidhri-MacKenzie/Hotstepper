@@ -1,5 +1,3 @@
-import { STEP_COUNT } from "../constants.js";
-
 class Queue {
 	constructor(maxSize) {
 		this.items = new Array(maxSize).fill(null);
@@ -43,8 +41,8 @@ class Queue {
 }
 
 export default class StepQueue extends Queue {
-	constructor() {
-		super(STEP_COUNT);
+	constructor(stepCount) {
+		super(stepCount);
 	}
 
 	enqueue(step, time) {

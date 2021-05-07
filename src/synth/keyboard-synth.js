@@ -1,4 +1,4 @@
-import { PITCH } from "../constants.js";
+import PITCH from "../pitches.js";
 import Synth from "./synth.js";
 
 export default class KeyboardSynth extends Synth {

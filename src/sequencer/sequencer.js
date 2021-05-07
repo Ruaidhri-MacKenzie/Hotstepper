@@ -1,17 +1,17 @@
-import { TEMPO, CHANNEL_COUNT, STEP_COUNT, LOOKAHEAD, SCHEDULE_AHEAD_TIME } from "../constants.js";
 import Channel from "./channel.js";
 import StepQueue from "./queue.js";
 
 export default class Sequencer {
-	constructor(context) {
+	constructor(context, channelCount, stepCount) {
 		this.context = context;
+		this.stepCount = stepCount;
 
 		// Channels
 		this.$channelTemplate = document.querySelector("#channel-template");
 		this.$channelList = document.querySelector(".channel-list__controls");
 		this.$sequenceList = document.querySelector(".channel-list__sequences");
 		this.channelList = [];
-		for (let i = 0; i < CHANNEL_COUNT; i++) {
+		for (let i = 0; i < channelCount; i++) {
 			this.addChannel(i);
 		}
 
@@ -25,11 +25,16 @@ export default class Sequencer {
 		this.$stop.addEventListener("click", this.stop.bind(this));
 		this.$tempo.addEventListener("change", this.setTempo.bind(this));
 
-		this.tempo = TEMPO.default; // in bpm
+		// Tempos in beats per minute (bpm)
+		this.tempoMin = 60;
+		this.tempoDefault = 120;
+		this.tempoMax = 240;
+		this.tempo = this.tempoDefault;
+
 		this.currentStep = 0;
 		this.nextStepTime = 0;
 		this.lastStepDrawn = 1;
-		this.stepQueue = new StepQueue();
+		this.stepQueue = new StepQueue(this.stepCount);
 		this.isPlaying = false;
 
 		this.soloChannel = null;
@@ -57,16 +62,16 @@ export default class Sequencer {
 		$sequence.setAttribute("id", `sequence${index}`);
 		this.$sequenceList.appendChild($sequence);
 
-		const channel = new Channel(this.context, index, this.setSolo.bind(this));
+		const channel = new Channel(this.context, index, this.stepCount, this.setSolo.bind(this));
 		this.channelList.push(channel);
 	}
 
 	setTempo() {
 		const tempo = parseInt(this.$tempo.value, 10);
 
-		if (isNaN(tempo)) this.tempo = TEMPO.default;
-		else if (tempo < TEMPO.min) this.tempo = TEMPO.min;
-		else if (tempo > TEMPO.max) this.tempo = TEMPO.max;
+		if (isNaN(tempo)) this.tempo = this.tempoDefault;
+		else if (tempo < this.tempoMin) this.tempo = this.tempoMin;
+		else if (tempo > this.tempoMax) this.tempo = this.tempoMax;
 		else this.tempo = tempo;
 
 		this.$tempo.value = this.tempo;
@@ -77,7 +82,7 @@ export default class Sequencer {
 		const secondsPerStep = secondsPerBeat / 4;
 		this.nextStepTime += secondsPerStep;
 		this.currentStep += 1;
-		this.currentStep %= STEP_COUNT;
+		this.currentStep %= this.stepCount;
 	}
 
 	scheduleStep(step, time) {
@@ -124,11 +129,11 @@ export default class Sequencer {
 	}
 
 	scheduler() {
-		while (this.nextStepTime < this.context.currentTime + SCHEDULE_AHEAD_TIME) {
+		while (this.nextStepTime < this.context.currentTime + 0.1) {
 			this.scheduleStep(this.currentStep, this.nextStepTime);
 			this.nextStep();
 		}
-		this.timerID = setTimeout(this.scheduler.bind(this), LOOKAHEAD);
+		this.timerID = setTimeout(this.scheduler.bind(this), 25);
 	}
 
 	play() {
